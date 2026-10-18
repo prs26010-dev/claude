@@ -15,6 +15,9 @@ Claude 커넥터/MCP 관리로 대응. ChatGPT 플러그인 설치 상태는 복
 
 - Claude 웹·앱: 설정 → 커넥터에서 연결·인증한다. 사용자 스킬은 설정 → 기능(Capabilities) → 스킬에서 ZIP 업로드.
 - Claude Code: `/mcp`로 MCP 연결 확인, `claude mcp add --transport http <이름> <URL>`로 원격 MCP 추가, 스킬은 `.claude/skills/` 또는 `~/.claude/skills/`.
+- 계정 상태 조회 도구(있으면 사용): `ListConnectors`(커넥터의 `connected`·`enabledInChat`), `ListSkills`(claude.ai에 올린 스킬), `ListPlugins`. 새로 연결할 후보는 `SearchMcpRegistry` → `SuggestConnectors`. 이 도구들은 조회·제안만 하며 연결 자체는 사용자가 claude.ai에서 한다.
+- `connected: true`인데 `enabledInChat: false`면 인증은 됐지만 이 대화에서 꺼진 상태다. 대화의 커넥터 설정에서 켜도록 안내한다. `connected: null`은 알 수 없음이다.
+- 실제 호출 성공 여부는 해당 도구를 가벼운 읽기(예: Drive `list_recent_files`)로 한 번 호출해 확인한다.
 - ChatGPT 플러그인 ID(`plugin://`, `mcp__codex_apps__*`)는 Claude에서 쓸 수 없다.
 
 ## 작업 지침

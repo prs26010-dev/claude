@@ -14,7 +14,7 @@ description: "웹사이트·랜딩페이지 제작, 기존 사이트 수정, 빌
 ## Claude 도구 대응
 
 - Claude Code: 로컬 파일 편집·빌드·테스트, 필요하면 `run` 스킬로 실행 확인. 배포는 저장소에 설정된 실제 제공자(Vercel·Netlify·Cloudflare·GitHub Pages 등)의 CLI나 연결 도구를 사용한다.
-- Claude 웹·앱: 단일 페이지 미리보기는 Artifact로 만들 수 있다. 실제 도메인 호스팅은 Claude가 제공하지 않는다.
+- Claude 웹·앱·Claude Code: 단일 페이지·소규모 다중 파일 사이트는 Artifact로 claude.ai에 게시할 수 있다(기본 비공개, 공유는 사용자가 결정). 자체 도메인·서버 런타임 호스팅은 아니다. 실제 회사·기관을 사칭하는 페이지는 게시하지 않는다.
 
 ## 작업 지침
 

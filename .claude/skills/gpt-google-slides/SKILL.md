@@ -14,7 +14,10 @@ description: "기존 Google Slides(구글 슬라이드) 템플릿·덱을 분석
 ## Claude 도구 대응
 
 - Claude의 Google Drive 커넥터에서 확인된 도구: `search_files`, `list_recent_files`, `get_file_metadata`, `read_file_content`(댓글 포함 읽기 지원), `download_file_content`, `create_file`, `update_file`, `copy_file`, `share_file`, `get_file_permissions`, `trash_file`. 도구 접두어는 환경마다 다르므로 실제 목록에서 이름을 확인한다.
-- 템플릿 복사는 `copy_file`. 현재 커넥터에는 Slides 네이티브 편집 API가 없으므로 pptx로 내보내 `anthropic-skills:pptx` 스킬로 편집하고 렌더링해 확인한다.
+- 스키마로 확인한 제약: `update_file`은 제목·설명·부모 폴더(이동)만 바꾸며 **파일 내용은 덮어쓰지 못한다**. `create_file`은 업로드한 docx·xlsx·pptx·텍스트를 기본적으로 Google 네이티브 형식으로 변환한다(`disableConversionToGoogleType: true`면 원형 유지). `download_file_content`는 네이티브 파일을 `exportMimeType`(docx·xlsx·pptx·pdf 등)으로 내보내며 지정하지 않으면 일반 텍스트/CSV다. `revisionId`로 이전 버전을 받을 수 있다. `read_file_content`는 큰 파일에서 일부만 반환할 수 있다.
+- 따라서 기존 네이티브 문서의 내용 수정 결과는 **새 파일**(원본 옆 복사본 등)로 만들어진다. 원본 대체(이름 교환·원본 휴지통 이동)는 사용자가 요청할 때만 한다.
+- 템플릿 복사는 `copy_file`. 현재 커넥터에는 Slides 네이티브 편집 API가 없으므로 `download_file_content`(`exportMimeType: application/vnd.openxmlformats-officedocument.presentationml.presentation`)로 받아 `pptx` 스킬로 편집하고, 결과를 `create_file`로 새 프레젠테이션으로 올린다.
+- 원본 전체 확인은 `exportMimeType: application/pdf`로 내보낸 뒤 페이지 이미지로 렌더링(예: `pdftoppm`)해 모든 슬라이드를 본다. 수정본도 같은 방식으로 다시 렌더링한다.
 - 참조 없는 새 발표자료는 Claude의 슬라이드 Artifact 유형 또는 pptx 스킬을 사용한다.
 
 ## 작업 지침
