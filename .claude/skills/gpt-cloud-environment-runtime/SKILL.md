@@ -13,7 +13,9 @@ Claude가 사용하는 실제 머신/컨테이너 정책에 맞게 재설정 필
 
 ## Claude 도구 대응
 
-- Claude Code 클라우드 세션: 네트워크 정책·환경변수·설정 스크립트는 claude.ai의 환경 설정에서 바꾼다. 세션 안에서는 `read_documentation` 도구로 현재 절차를 확인한다.
+- Claude Code 클라우드 세션: 네트워크 정책·환경변수·설정 스크립트는 claude.ai의 환경 설정에서 바꾼다. 막히거나 사용자가 설정 방법을 물으면 `read_documentation`(주제: `environment.network`, `environment.secrets`, `environment.setup_script`, `environment.dependencies`, `github.access`, `connectors.add`, `session.resources`)으로 현재 절차를 확인한다. 이 도구는 사용자에게 설정 화면 버튼도 보여 준다.
+- 클라우드 세션의 외부 HTTPS는 에이전트 프록시를 거친다. TLS 오류·403/407·전송 끊김이면 `/root/.ccr/README.md`와 `curl -sS "$HTTPS_PROXY/__agentproxy/status"`로 원인을 확인하고, 필요하면 CA 번들 `/root/.ccr/ca-bundle.crt`를 도구에 지정한다. TLS 검증을 끄거나 `HTTPS_PROXY`를 해제하지 않는다.
+- 클라우드 세션의 디스크는 세션별 할당량이다. `df`의 Avail이 0이면 할당량 소진이므로 빌드 산출물·캐시를 지워 확보한다.
 - Claude Code 로컬: 사용자의 셸 환경과 `settings.json`(`update-config` 스킬)을 따른다.
 
 ## 작업 지침

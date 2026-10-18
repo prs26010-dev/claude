@@ -10,14 +10,14 @@ Claude의 커넥터 메뉴에서 사용 가능한 Google Drive·GitHub 연결을
 
 ## Claude Code
 
-이 패키지의 `claude-code/`에서 시작하면 로컬 스킬이 프로젝트 범위로 배치되어 있다. 기존 프로젝트로 옮기려면 아래 설치 도우미를 사용한다.
+이 저장소를 열면 `.claude/skills/gpt-*` 15개가 프로젝트 범위로 이미 배치되어 있다. 다른 프로젝트로 옮기려면 스킬 폴더를 복사한다(별도 설치 도우미는 없다).
 
 ```text
-python3 install.py --project /absolute/path/to/project --dry-run
-python3 install.py --project /absolute/path/to/project
+cp -r .claude/skills/gpt-* /absolute/path/to/project/.claude/skills/   # 해당 프로젝트만
+cp -r .claude/skills/gpt-* ~/.claude/skills/                            # 모든 프로젝트
 ```
 
-기존 `CLAUDE.md`를 유지할 때는 설치 명령에 `--skills-only`를 추가하고 지침은 직접 통합한다.
+대상 프로젝트에 기존 `CLAUDE.md`가 있으면 덮어쓰지 말고 이 저장소 `CLAUDE.md`의 지침을 직접 통합한다.
 
 원격 MCP 서버가 실제로 준비되면 다음 형식으로 추가한다. 대괄호 부분은 실제 값으로 바꾼다. 이 문서에는 미확인 서버 주소나 인증 값을 넣지 않았다.
 
@@ -34,6 +34,7 @@ claude mcp add --transport http --scope user [server-name] [verified-https-mcp-u
 | Google Drive·Docs·Sheets·Slides | 지원되는 연결·인증·해당 편집 권한 | 사용자가 지정한 시험 파일의 메타데이터와 소범위 읽기; 편집은 지정한 복사본에서만 확인 |
 | GitHub | 저장소 범위를 지정한 인증된 연결 또는 git/gh | 지정 저장소와 대상 브랜치 읽기 |
 | 법률서면 MCP | 기존 서버 주소·소스 또는 재배포 권한, Google/공식 법령 API 설정, HWP/HWPX/OCR 지원 | connection_status가 먼저 성공해야 함. 그 후 사용자가 지정한 사건만 열기 |
+| 한국 법령 MCP (법령·판례·인용 실존 검증) | claude.ai 커넥터로 추가·인증(기존 법률서면 MCP와 별개) | `search_law`로 법령 하나 조회 성공 |
 | Sites | 원본 사이트 소스와 대상 호스팅·도메인·저장소 설정 | 빌드 및 해당 배포 제공자의 성공 URL |
 | Pets | 원본 스프라이트·지원 런타임·검증 계약·이미지 도구 | 프레임 구조와 실제 재생 확인. ChatGPT 컬렉션 등록은 별도 |
 | 예약 | 실제 백그라운드 스케줄러와 사용자의 시간대 | 작업 ID·활성 상태·다음 실행 시각 확인 |

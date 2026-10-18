@@ -14,7 +14,9 @@ description: "Google Docs·Sheets·Slides 문서의 댓글 읽기·검토 의견
 ## Claude 도구 대응
 
 - Claude의 Google Drive 커넥터에서 확인된 도구: `search_files`, `list_recent_files`, `get_file_metadata`, `read_file_content`(댓글 포함 읽기 지원), `download_file_content`, `create_file`, `update_file`, `copy_file`, `share_file`, `get_file_permissions`, `trash_file`. 도구 접두어는 환경마다 다르므로 실제 목록에서 이름을 확인한다.
-- 댓글 읽기는 `read_file_content`의 `includeComments`로 가능하다. 현재 커넥터에는 댓글 작성·답글·해결 도구가 없으므로, 그 기능이 있는 MCP가 연결되지 않았다면 작성할 댓글 초안(위치·인용 문구·내용)을 목록으로 제공하고 직접 게시했다고 말하지 않는다.
+- 스키마로 확인한 제약: `update_file`은 제목·설명·부모 폴더(이동)만 바꾸며 **파일 내용은 덮어쓰지 못한다**. `create_file`은 업로드한 docx·xlsx·pptx·텍스트를 기본적으로 Google 네이티브 형식으로 변환한다(`disableConversionToGoogleType: true`면 원형 유지). `download_file_content`는 네이티브 파일을 `exportMimeType`(docx·xlsx·pptx·pdf 등)으로 내보내며 지정하지 않으면 일반 텍스트/CSV다. `revisionId`로 이전 버전을 받을 수 있다. `read_file_content`는 큰 파일에서 일부만 반환할 수 있다.
+- 따라서 기존 네이티브 문서의 내용 수정 결과는 **새 파일**(원본 옆 복사본 등)로 만들어진다. 원본 대체(이름 교환·원본 휴지통 이동)는 사용자가 요청할 때만 한다.
+- 댓글 읽기는 `read_file_content`의 `includeComments: true`로 가능하다(Google 문서·시트·슬라이드만, 본문에 댓글 위치 태그와 스레드 매핑이 인라인으로 들어온다). docx 등 업로드 파일의 댓글은 이 방식으로 읽히지 않는다. 현재 커넥터에는 댓글 작성·답글·해결 도구가 없으므로, 그 기능이 있는 MCP가 연결되지 않았다면 작성할 댓글 초안(위치·인용 문구·내용)을 목록으로 제공하고 직접 게시했다고 말하지 않는다.
 
 ## 작업 지침
 

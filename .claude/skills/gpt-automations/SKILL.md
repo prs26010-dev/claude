@@ -13,8 +13,13 @@ Claude의 실제 예약 기능 또는 외부 스케줄러 필요. 기존 작업 
 
 ## Claude 도구 대응
 
-- Claude Code 클라우드 세션: 예약 작업 도구(`create_trigger`, `send_later`, `list_triggers`, `update_trigger`)가 있으면 그것을 사용하고 반환된 ID·다음 실행 시각을 보고한다. cron 시각은 사용자 시간대(예: `CRON_TZ=Asia/Seoul`)로 명시한다.
-- Claude Code 로컬: 세션 안 반복은 `/loop`, 세션 밖 실행은 OS 스케줄러(cron·작업 스케줄러)에 `claude -p` 명령을 등록하는 스크립트를 제공한다.
+- Claude Code 클라우드 세션(claude-code-remote MCP, 예: `mcp__claude-code-remote__create_trigger`):
+  - 반복·지정 시각 작업: `create_trigger`(`cron_expression` 또는 `run_once_at`). 대화가 닫혀도 서버에서 실행된다. 매번 새 세션으로 돌릴 작업은 `create_new_session_on_fire: true`와 독립적으로 읽히는 프롬프트를 쓴다.
+  - Drive 등 커넥터를 읽는 작업은 `connectors`에 사용자가 지정한 커넥터만 넣는다. 결과에 "커넥터 없음" 경고가 있으면 완료로 보고하지 말고 그대로 알린다.
+  - 이 대화로 돌아오는 단발 알림: `send_later`. 확인·수정·중지·삭제: `list_triggers`·`get_trigger`·`update_trigger`(`enabled: false`)·`delete_trigger`.
+  - cron 필드는 기본 UTC다. 사용자 시간대를 `CRON_TZ=Asia/Seoul 52 8 * * 1-5`처럼 앞에 붙인다. 정각·30분은 몰리므로 사용자가 정확한 시각을 고집하지 않으면 몇 분 앞당긴다.
+- Claude Code 세션 안 반복: `/loop` 또는 `CronCreate`. **세션이 끝나면 사라지고 반복 작업은 7일 후 자동 만료**되므로 장기 예약으로 소개하지 않는다.
+- Claude Code 로컬에서 세션 밖 실행: OS 스케줄러(cron·launchd·작업 스케줄러)에 `claude -p "<프롬프트>"`를 등록하는 스크립트를 제공한다.
 - Claude 웹·앱에 범용 예약 기능이 없으면 캘린더 일정(.ics)이나 실행 스크립트를 파일로 전달한다.
 
 ## 작업 지침
@@ -25,7 +30,7 @@ Claude의 실제 예약 기능 또는 외부 스케줄러 필요. 기존 작업 
 
 3. 외부 앱을 읽는 예약이면 해당 앱에 실제 읽기 접근이 가능한지 먼저 확인한다.
 
-4. 예약은 지원되는 스케줄러에 저장한 뒤 작업 ID, 활성 상태, 다음 실행 시각을 확인해야 완료로 말한다.
+4. 예약은 지원되는 스케줄러에 저장한 뒤 작업 ID, 활성 상태, 다음 실행 시각(도구가 반환한 값, 사용자 시간대로 환산)을 확인해야 완료로 말한다. 사용자에게는 "트리거"가 아니라 "예약 작업"이라고 부른다.
 
 5. 기존 작업 수정은 ID로 대상을 확인하고 원래 스케줄과 내용의 요청 범위만 변경한다.
 

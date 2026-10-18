@@ -14,8 +14,12 @@ description: "Google Docs(구글 문서) 작성·수정·서식 유지·템플�
 ## Claude 도구 대응
 
 - Claude의 Google Drive 커넥터에서 확인된 도구: `search_files`, `list_recent_files`, `get_file_metadata`, `read_file_content`(댓글 포함 읽기 지원), `download_file_content`, `create_file`, `update_file`, `copy_file`, `share_file`, `get_file_permissions`, `trash_file`. 도구 접두어는 환경마다 다르므로 실제 목록에서 이름을 확인한다.
+- 스키마로 확인한 제약: `update_file`은 제목·설명·부모 폴더(이동)만 바꾸며 **파일 내용은 덮어쓰지 못한다**. `create_file`은 업로드한 docx·xlsx·pptx·텍스트를 기본적으로 Google 네이티브 형식으로 변환한다(`disableConversionToGoogleType: true`면 원형 유지). `download_file_content`는 네이티브 파일을 `exportMimeType`(docx·xlsx·pptx·pdf 등)으로 내보내며 지정하지 않으면 일반 텍스트/CSV다. `revisionId`로 이전 버전을 받을 수 있다. `read_file_content`는 큰 파일에서 일부만 반환할 수 있다.
+- 따라서 기존 네이티브 문서의 내용 수정 결과는 **새 파일**(원본 옆 복사본 등)로 만들어진다. 원본 대체(이름 교환·원본 휴지통 이동)는 사용자가 요청할 때만 한다.
 - 현재 Drive 커넥터에는 Docs `batchUpdate`(인덱스 단위 삽입·삭제)가 없다. 읽기는 `read_file_content`, 새 문서는 `create_file`로 만든다.
-- 기존 문서의 서식 보존 편집이 필요하면 `download_file_content`로 .docx를 받아 `anthropic-skills:docx` 스킬로 편집한 뒤 사용자에게 업로드 방식을 확인한다. 원본 네이티브 문서를 덮어쓰기 전에 반드시 확인한다.
+- 서식이 있는 새 문서는 `docx` 스킬로 .docx를 만든 뒤 `create_file`(`contentMimeType`=docx MIME, 변환 기본값)로 올리면 제목 스타일·표가 Google 문서로 변환된다. 일반 텍스트 업로드는 서식이 사라진다.
+- 기존 문서 수정: `download_file_content`(`exportMimeType: application/vnd.openxmlformats-officedocument.wordprocessingml.document`) → `docx` 스킬로 필요한 범위만 편집 → `create_file`로 새 Google 문서 생성 → `read_file_content`로 다시 읽어 확인. 스마트칩·드롭다운·댓글·제안 모드 기록은 docx 왕복에서 사라질 수 있으므로 해당 요소가 있으면 먼저 알린다.
+- Claude Docs(claude.ai 문서 커넥터)는 Google Docs와 다른 제품이다. 사용자가 Google 문서를 원하면 대체하지 않는다.
 - 인덱스·requiredRevisionId 관련 지침은 Docs API를 직접 쓰는 MCP가 연결된 경우에만 적용한다.
 
 ## 작업 지침

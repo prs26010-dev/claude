@@ -13,7 +13,11 @@ GitHub 커넥터/MCP 또는 인증된 git·gh 재연결 필요.
 
 ## Claude 도구 대응
 
-- Claude Code: 로컬 `git`과 GitHub MCP 도구(`mcp__github__*`: `pull_request_read`, `create_pull_request`, `list_issues` 등)를 사용한다. `gh` CLI는 환경에 따라 없을 수 있다.
+- Claude Code: 로컬 `git`과 GitHub MCP 도구(`mcp__github__*`: `pull_request_read`, `create_pull_request`, `list_issues`, `get_check_run`, `get_job_logs` 등)를 사용한다. 클라우드 세션에는 `gh` CLI가 없으므로 GitHub 작업은 MCP 도구로 한다.
+- 클라우드 세션의 GitHub 접근은 세션에 등록된 저장소로 제한된다. 다른 저장소가 필요하면 `list_repos`로 확인하고 `add_repo`로 추가한다. 거부되면 도구가 준 사유를 그대로 전달한다.
+- 푸시는 지정된 작업 브랜치에 `git push -u origin <브랜치>`로 하고, 네트워크 오류일 때만 짧은 간격으로 재시도한다.
+- PR은 사용자가 요청할 때만 만든다. 만든 뒤에는 CI·리뷰를 지켜볼지 묻고, 원하면 `subscribe_pr_activity`로 구독한다(폴링하지 않음).
+- GitHub에 남기는 댓글·리뷰 끝에는 Claude Code 작성 표시를 붙인다.
 - Claude 웹·앱: GitHub 커넥터는 주로 저장소 읽기용이다. 쓰기는 Claude Code에서 수행한다.
 
 ## 작업 지침
@@ -32,7 +36,7 @@ GitHub 커넥터/MCP 또는 인증된 git·gh 재연결 필요.
 
 7. 푸시·PR 작성·병합을 하지 않은 상태에서 완료로 표현하지 않는다.
 
-8. 89개 도구의 정확한 기존 명세는 패키지의 tools/catalog.json에 있으며, 실제 Claude MCP의 도구 이름과 인자는 다시 확인한다.
+8. GPT의 GitHub 도구 89개 명세는 이 공개 저장소에 포함하지 않았다(원본 ZIP은 Drive 보관). 도구 이름과 인자는 현재 Claude MCP의 스키마로 확인한다.
 
 ## 출처
 
