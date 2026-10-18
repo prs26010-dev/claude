@@ -10,7 +10,7 @@ Claude의 커넥터 메뉴에서 사용 가능한 Google Drive·GitHub 연결을
 
 ## Claude Code
 
-이 저장소를 열면 `.claude/skills/gpt-*` 15개가 프로젝트 범위로 이미 배치되어 있다. 다른 프로젝트로 옮기려면 스킬 폴더를 복사한다(별도 설치 도우미는 없다).
+이 저장소를 열면 `.claude/skills/gpt-*` 16개가 프로젝트 범위로 이미 배치되어 있다. 다른 프로젝트로 옮기려면 스킬 폴더를 복사한다(별도 설치 도우미는 없다).
 
 ```text
 cp -r .claude/skills/gpt-* /absolute/path/to/project/.claude/skills/   # 해당 프로젝트만

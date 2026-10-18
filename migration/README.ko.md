@@ -40,7 +40,7 @@ Google Drive의 `GPT-to-Claude-migration-full.zip`(SHA-256 `e37cae26…8a59b4`, 
 
 ## Claude Code
 
-이 저장소에는 이미 설치되어 있다: `CLAUDE.md`, `.claude/skills/gpt-*` 15개. 저장소를 열고 `claude`를 실행하면 `/gpt-google-drive`처럼 쓸 수 있다.
+이 저장소에는 이미 설치되어 있다: `CLAUDE.md`, `.claude/skills/gpt-*` 16개. 저장소를 열고 `claude`를 실행하면 `/gpt-google-drive`처럼 쓸 수 있다.
 
 다른 프로젝트나 모든 프로젝트에 쓰려면:
 

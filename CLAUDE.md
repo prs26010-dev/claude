@@ -15,6 +15,6 @@
 
 ## 스킬 목록
 
-`.claude/skills/`의 gpt-* 스킬 15개. `gpt-create-pet`·`gpt-pets`·`gpt-update-pet`·`gpt-connected-document-control`은 ChatGPT 전용 백엔드가 필요해 자동 실행되지 않으며 `/이름`으로 직접 호출할 때만 쓴다.
+`.claude/skills/`의 gpt-* 스킬 16개. `gpt-create-pet`·`gpt-pets`·`gpt-update-pet`·`gpt-connected-document-control`은 ChatGPT 전용 백엔드가 필요해 자동 실행되지 않으며 `/이름`으로 직접 호출할 때만 쓴다.
 
 스킬(`.claude/skills/gpt-*/SKILL.md`)을 고치면 `python3 migration/build_web_package.py`로 웹용 ZIP과 `WORKFLOWS.ko.md`를 다시 만든다.

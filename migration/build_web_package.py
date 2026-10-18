@@ -17,7 +17,7 @@ WORKFLOWS = ROOT / "WORKFLOWS.ko.md"
 # Fixed timestamp keeps zip bytes stable across rebuilds.
 ZIP_TIME = (2026, 1, 1, 0, 0, 0)
 
-HEADER = """# Claude용 업무 지침 15개 (개선판)
+HEADER = """# Claude용 업무 지침 16개 (개선판)
 
 웹·앱 프로젝트 참고 파일용. 내용은 `skill-zips/`의 SKILL.md와 같다. `build_web_package.py`로 생성하므로 직접 고치지 않는다.
 """
